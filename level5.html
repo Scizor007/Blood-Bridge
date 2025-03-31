@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compatibility Checker</title>
+    <link rel="stylesheet" href="navbar.css"> <!-- Link to navbar CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100vh;
+            background-color: #000;
+            color: red;
+            font-family: 'Press Start 2P', cursive;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #levelText {
+            font-size: 54px; /* Larger heading size */
+            margin: 20px 0;
+            text-align: center;
+            width: 100%;
+            color: #ffcccc;
+            text-shadow: 0 0 5px #ffcccc, 0 0 10px #ffcccc, 0 0 15px #ff6666;
+        }
+
+        nav {
+            width: 100%;
+            text-align: center;
+        }
+        nav + nav { /* Adjusts only the second nav containing the Back button */
+            margin-top: 40px; /* Added margin to move it lower */
+            text-align: center;
+        }
+
+        .nav-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Press Start 2P', cursive;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            margin-right: 20px;
+        }
+
+        .nav-btn:hover {
+            background-color: #0056b3;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+        }
+
+        .compatibility-checker {
+            margin-top: 50px;
+            text-align: center;
+            color: #ffcccc;
+        }
+
+        .compatibility-checker select {
+            padding: 10px;
+            font-size: 18px;
+            margin-top: 20px;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #000;
+            color: #ff6666;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            background-color: #ff6666;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Press Start 2P', cursive;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            width: 200%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: darkred;
+            box-shadow: 0 0 20px rgba(255, 102, 102, 0.8);
+        }
+
+        .result {
+            font-size: 24px;
+            margin-top: 30px;
+            font-family: 'Press Start 2P', cursive;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="home.html">Others</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+    
+    <nav>
+        <button class="nav-btn" onclick="window.location.href='home.html';">Back</button>
+    </nav>
+
+    <div id="levelText"></div> <!-- The text will be typed out here -->
+
+    <div class="compatibility-checker">
+
+        <label for="donorBloodType">Donor Blood Type:</label>
+        <select id="donorBloodType">
+            <option value="A+">A+</option>
+            <option value="B+">B+</option>
+            <option value="O+">O+</option>
+            <option value="AB+">AB+</option>
+            <option value="A-">A-</option>
+            <option value="B-">B-</option>
+            <option value="O-">O-</option>
+            <option value="AB-">AB-</option>
+        </select>
+
+        <label for="receiverBloodType">Receiver Blood Type:</label>
+        <select id="receiverBloodType">
+            <option value="A+">A+</option>
+            <option value="B+">B+</option>
+            <option value="O+">O+</option>
+            <option value="AB+">AB+</option>
+            <option value="A-">A-</option>
+            <option value="B-">B-</option>
+            <option value="O-">O-</option>
+            <option value="AB-">AB-</option>
+        </select>
+
+        <button class="submit-btn" onclick="checkCompatibility()">Check Compatibility</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const levelTextElement = document.getElementById("levelText");
+            const text = "Compatibility Checker";
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    levelTextElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, 200);
+                }
+            }
+
+            type();
+        });
+
+        const compatibilityMatrix = {
+            "A+": ["A+", "O+", "AB+", "A-", "O-", "AB-"],
+            "B+": ["B+", "O+", "AB+", "B-", "O-", "AB-"],
+            "O+": ["O+", "A+", "B+", "AB+", "O-", "A-", "B-", "AB-"],
+            "AB+": ["AB+", "A+", "B+", "O+", "AB-", "A-", "B-", "O-"],
+            "A-": ["A+", "O+", "A-", "O-", "AB-", "AB+"],
+            "B-": ["B+", "O+", "B-", "O-", "AB-", "AB+"],
+            "O-": ["O+", "A+", "B+", "AB+", "O-", "A-", "B-", "AB-"],
+            "AB-": ["AB+", "A+", "B+", "O+", "AB-", "A-", "B-", "O-"]
+        };
+
+        function checkCompatibility() {
+            const donorType = document.getElementById('donorBloodType').value;
+            const receiverType = document.getElementById('receiverBloodType').value;
+            const resultDiv = document.getElementById('result');
+
+            // Check if the receiver's blood type is in the donor's compatibility list
+            if (compatibilityMatrix[donorType].includes(receiverType)) {
+                resultDiv.textContent = "MATRIX IS MATCH!";
+                resultDiv.style.color = "green";
+            } else {
+                resultDiv.textContent = "MATRIX IS NOT A MATCH!";
+                resultDiv.style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>

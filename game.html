@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bridge Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #111;
+            color: #ff6666;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        #gameContainer {
+            position: relative;
+            width: 800px;
+            height: 200px;
+            background-color: #333;
+            overflow: hidden;
+            border: 2px solid #ff6666;
+        }
+        /* Pixelated Blood Cell */
+        .character {
+            position: absolute;
+            display: grid;
+            grid-template-columns: repeat(5, 10px);
+            width: 50px;
+            height: 50px;
+            bottom: 20px;
+        }
+        .character div {
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d4d; /* Primary red */
+        }
+        /* Shape the circle with specific pixels */
+        .character .top, .character .bottom {
+            background-color: transparent;
+        }
+        .character .center {
+            background-color: #cc0000; /* Darker red center */
+        }
+
+        /* Pixelated Germs */
+        .obstacle {
+            position: absolute;
+            display: grid;
+            grid-template-columns: repeat(5, 10px);
+            width: 50px;
+            height: 50px;
+            bottom: 20px;
+        }
+        .obstacle div {
+            width: 10px;
+            height: 10px;
+            background-color: #66ff66; /* Primary green */
+        }
+        /* Shape the circle with specific pixels */
+        .obstacle .top, .obstacle .bottom {
+            background-color: transparent;
+        }
+        .obstacle .center {
+            background-color: #339933; /* Darker green for center */
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
+            color: #ffcccc;
+        }
+
+        /* Back Button Styling */
+        .back-button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: 'Press Start 2P', cursive;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+            width: 200px;
+        }
+
+        .back-button:hover {
+            background-color: darkblue;
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.8);
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="score">Score: 0</div>
+
+<div id="gameContainer">
+    <!-- Blood Cell (Character) Pixelated Circle -->
+    <div class="character" id="character">
+        <div class="top"></div><div></div><div class="center"></div><div></div><div class="top"></div>
+        <div></div><div class="center"></div><div class="center"></div><div class="center"></div><div></div>
+        <div class="center"></div><div class="center"></div><div class="center"></div><div class="center"></div><div class="center"></div>
+        <div></div><div class="center"></div><div class="center"></div><div class="center"></div><div></div>
+        <div class="bottom"></div><div></div><div class="center"></div><div></div><div class="bottom"></div>
+    </div>
+</div>
+
+<!-- Back Button -->
+<button class="back-button" onclick="window.location.href='home.html';">Back</button>
+
+<script>
+    const character = document.getElementById('character');
+    const gameContainer = document.getElementById('gameContainer');
+    const scoreDisplay = document.getElementById('score');
+    let isJumping = false;
+    let score = 0;
+    let gameSpeed = 3;
+
+    function jump() {
+        if (!isJumping) {
+            isJumping = true;
+            let position = 0;
+            const jumpInterval = setInterval(() => {
+                if (position >= 120) {
+                    clearInterval(jumpInterval);
+                    const fallInterval = setInterval(() => {
+                        if (position <= 0) {
+                            clearInterval(fallInterval);
+                            isJumping = false;
+                        }
+                        position -= 4;
+                        character.style.bottom = position + 'px';
+                    }, 20);
+                }
+                position += 4;
+                character.style.bottom = position + 'px';
+            }, 20);
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') jump();
+    });
+
+    function createObstacle() {
+        const obstacle = document.createElement('div');
+        obstacle.classList.add('obstacle');
+        for (let i = 0; i < 25; i++) {
+            const pixel = document.createElement('div');
+            if ([0, 4, 20, 24].includes(i)) pixel.classList.add('top');
+            else if ([6, 8, 16, 18].includes(i)) pixel.classList.add('bottom');
+            else if ([12].includes(i)) pixel.classList.add('center');
+            obstacle.appendChild(pixel);
+        }
+        gameContainer.appendChild(obstacle);
+
+        let obstaclePosition = 800;
+        const obstacleInterval = setInterval(() => {
+            if (obstaclePosition < -30) {
+                clearInterval(obstacleInterval);
+                gameContainer.removeChild(obstacle);
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                if (score % 5 === 0) gameSpeed += 0.5;
+            } else if (
+                obstaclePosition < 50 &&
+                obstaclePosition > 0 &&
+                !isJumping
+            ) {
+                alert("Game Over! Your score is " + score);
+                clearInterval(obstacleInterval);
+                window.location.reload();
+            }
+            obstaclePosition -= gameSpeed;
+            obstacle.style.left = obstaclePosition + 'px';
+        }, 20);
+
+        setTimeout(createObstacle, Math.random() * 2000 + 1000);
+    }
+
+    createObstacle();
+</script>
+
+</body>
+</html>

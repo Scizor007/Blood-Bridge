@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif; /* Font for the body */
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    display: flex;
+    flex-direction: column; /* Allow for header and main content to stack vertically */
+    align-items: center;
+    justify-content: center; /* Center content vertically */
+    min-height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+header {
+    width: 100%; /* Full width header */
+    background-color: transparent; /* Transparent background for header */
+    padding: 10px 0; /* Padding for header */
+    position: fixed; /* Fix the header at the top */
+    top: 0; /* Align to the top */
+    z-index: 10; /* Ensure it sits above other content */
+}
+
+
+
+.pixel-environment {
+    position: relative; /* Enable absolute positioning of floating circles */
+    width: 100vw; /* Full width of viewport */
+    height: 100vh; /* Full height of viewport */
+    overflow: hidden; /* Prevent circles from going out of bounds */
+}
+
+.blood-cell {
+    position: absolute; /* Absolute positioning for floating effect */
+    width: 60px; /* Set the width of the circles */
+    height: 60px; /* Set the height of the circles */
+    background-color: rgba(255, 0, 0, 0.7); /* Semi-transparent red */
+    border-radius: 50%; /* Make it circular */
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    color: white; /* Text color */
+    font-family: 'Press Start 2P', cursive; /* Pixel font */
+    font-size: 1.2em; /* Font size for blood group text */
+    animation: float 15s infinite; /* Animation for floating effect */
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0); /* Start position */
+    }
+    25% {
+        transform: translate(100px, -50px); /* Move up and to the right */
+    }
+    50% {
+        transform: translate(-150px, 100px); /* Move down and to the left */
+    }
+    75% {
+        transform: translate(-100px, -100px); /* Move up and to the left */
+    }
+    100% {
+        transform: translate(200px, 0); /* Move back down */
+    }
+}
+
+/* General Page Styles */
+/* General Page Styles */
+body {
+    background-color: #000;
+    color: #ff6666;
+    font-family: 'Press Start 2P', cursive;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh; /* Ensure page height adapts to content */
+    overflow-y: auto;  /* Enable vertical scrolling */
+}
+
+
+/* Header and Navigation */
+header {
+    width: 100%;
+    background-color: #111;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+header nav ul li a {
+    color: #ffcccc;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #ff6666;
+}
+
+/* Main Container for Options */
+.container {
+    text-align: center;
+    max-width: 800px;
+    margin-top: 30px;
+}
+
+.container h1 {
+    font-size: 36px;
+    color: #ffcccc;
+    text-shadow: 0 0 10px #ffcccc, 0 0 20px #ff6666;
+    margin-bottom: 40px;
+}
+
+/* Option Buttons with Unique Hover Effects */
+.option {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 15px auto;
+    padding: 20px;
+    color: #fff;
+    background-color: #ff6666;
+    border: none;
+    font-size: 18px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Unique Hover Effects */
+.option:nth-child(2):hover {
+    background-color: #ff9966; /* Orange */
+    transform: scale(1.05);
+}
+
+.option:nth-child(3):hover {
+    background-color: #66ff66; /* Green */
+    text-shadow: 0 0 8px #66ff66;
+}
+
+.option:nth-child(4):hover {
+    background-color: #66ccff; /* Light Blue */
+    box-shadow: 0 0 15px rgba(102, 204, 255, 0.8);
+}
+
+.option:nth-child(5):hover {
+    background-color: #ff66cc; /* Pink */
+    letter-spacing: 2px;
+}
+
+.option:nth-child(6):hover {
+    background-color: #ffff66; /* Yellow */
+    border: 2px solid #ff6666;
+    transform: translateY(-5px);
+}
+
+/* About and Contact Sections */
+#about, #contact {
+    width: 80%;
+    max-width: 600px;
+    color: #ffcccc;
+    margin: 40px auto;
+    text-align: center;
+    line-height: 1.6;
+}
+
+#about h2, #contact h2 {
+    color: #ff6666;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    background-color: #000; /* Background color for navbar */
+    z-index: 10;
+    padding: 10px;
+}
+
+body {
+    margin-top: 80px; /* Adjust to match the height of the navbar */
+    overflow-y: auto; /* Enable scrolling */
+}
+
+.nav-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    font-family: 'Press Start 2P', cursive;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-right: 20px;
+}
+.nav-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+}

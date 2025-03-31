@@ -1,0 +1,565 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif; /* Font for the body */
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    display: flex;
+    flex-direction: column; /* Allow for header and main content to stack vertically */
+    align-items: center;
+    justify-content: center; /* Center content vertically */
+    min-height: 100vh; /* Full viewport height */
+}
+
+/* Header and Navigation */
+header {
+    width: 100%;
+    background-color: #111;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+header nav ul li a {
+    color: #ffcccc;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #ff6666;
+}
+
+.container {
+    text-align: center;
+    margin-top: 80px; /* Space for the fixed header */
+}
+
+h1 {
+    font-family: 'Press Start 2P', cursive; /* Pixel font for title */
+    color: #d9534f; /* Red color for the title */
+    font-size: 4em; /* Increased font size */
+    margin-bottom: 40px; /* Space below the heading */
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden; /* Hide overflow for the typewriter effect */
+    display: inline-block; /* Keep the title inline for cursor positioning */
+    position: relative; /* Position for the cursor */
+    height: 60px; /* Fixed height to prevent shifting */
+}
+
+.cursor {
+    position: absolute; /* Position the cursor */
+    width: 4px; /* Width of the cursor */
+    height: 100%; /* Full height of the text */
+    background-color: #d9534f; /* Cursor color */
+    animation: blink-caret 0.75s step-end infinite; /* Blinking effect */
+    left: 100%; /* Position cursor at the end of text */
+    margin-left: -4px; /* Adjust for cursor width */
+}
+
+/* Keyframes for blinking effect */
+@keyframes blink-caret {
+    from, to {
+        background-color: transparent; /* Cursor invisible */
+    }
+    50% {
+        background-color: #d9534f; /* Cursor visible */
+    }
+}
+
+.quote {
+    font-family: 'Courier New', monospace; /* Font style for the quote */
+    color: #fff; /* White color for the quote */
+    font-size: 1.5em; /* Slightly larger font size */
+    margin-bottom: 30px; /* Space below the quote */
+}
+
+.buttons {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    gap: 20px; /* Space between buttons */
+}
+
+.btn {
+    background-color: transparent; /* Remove the background color */
+    color: #d9534f; /* Change button text color to red */
+    border: 2px solid #d9534f; /* Red border color */
+    border-radius: 50px; /* Makes the button oval */
+    padding: 15px 40px; /* Padding for a more oval shape */
+    font-size: 1.2em;
+    font-family: 'Open Sans', sans-serif; /* Match the font to the rest of the page */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Transition for hover effects */
+}
+
+.btn:hover {
+    background-color: #d9534f; /* Change background color to red on hover */
+    color: #fff; /* Change text color to white on hover for contrast */
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+}
+
+.modal-content {
+    background-color: #222; /* Dark gray background */
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px; /* Padding inside modal */
+    border: 1px solid #888; /* Gray border */
+    width: 80%; /* Width of modal */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.close-button {
+    color: #aaa; /* Light gray color for close button */
+    float: right; /* Align to the right */
+    font-size: 28px; /* Font size for the close button */
+    font-weight: bold; /* Bold font for emphasis */
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #d9534f; /* Change color on hover/focus */
+    text-decoration: none; /* Remove underline */
+    cursor: pointer; /* Pointer cursor */
+}
+
+.popup-title {
+    font-family: 'Press Start 2P', cursive; /* Pixel font for the popup title */
+    color: #d9534f; /* Red color for the title */
+    font-size: 2.5em; /* Adjust font size as needed */
+    margin: 0 0 15px; /* Space below the title */
+    text-align: center; /* Center the title */
+}
+
+/* Style for popup content */
+.popup-content {
+    background-color: #444; /* Dark gray for popup content */
+    padding: 20px; /* Padding for popup content */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.popup-content form {
+    display: flex;
+    flex-direction: column; /* Stack form fields vertically */
+    gap: 15px; /* Space between fields */
+}
+
+.popup-content label {
+    font-size: 1.1em; /* Adjust font size for labels */
+}
+
+/* Style for select element */
+.popup-content select {
+    width: 100%; /* Make the input fields full width */
+    padding: 10px; /* Add some padding for comfort */
+    margin-bottom: 15px; /* Add space below the input fields */
+    border: 1px solid #d9534f; /* Add a border that matches your theme */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    color: #000; /* Black text */
+}
+
+/* Style for the options */
+.popup-content select option {
+    background-color: #fff; /* Default background color */
+    color: #000; /* Default text color */
+}
+
+/* Hover effect for individual options */
+.popup-content select option:hover {
+    background-color: #d9534f; /* Red background on hover */
+    color: #fff; /* White text on hover */
+}
+
+/* General input styles for inputs in the popup */
+.popup-content select,
+.popup-content input {
+    padding: 10px; /* Padding for inputs */
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #ccc; /* Light gray border */
+}
+
+.background-circles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; /* Allow clicks to pass through */
+    z-index: 1; /* Ensure circles are above the background */
+}
+
+.circle {
+    position: absolute;
+    width: 60px; /* Adjust size as needed */
+    height: 60px; /* Adjust size as needed */
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0.8; /* Slightly transparent for a soft look */
+}
+
+/* Unique styles for each circle with different animations */
+#circle1 { 
+    background-color: #FF5733; /* O+ */
+    top: 10%; left: 10%; 
+    animation: float1 6s ease-in-out infinite; 
+}
+
+#circle2 { 
+    background-color: #C70039; /* O- */
+    top: 20%; left: 30%; 
+    animation: float2 8s ease-in-out infinite; 
+}
+
+#circle3 { 
+    background-color: #FFC300; /* A+ */
+    top: 30%; left: 50%; 
+    animation: float3 7s ease-in-out infinite; 
+}
+
+#circle4 { 
+    background-color: #DAF7A6; /* A- */
+    top: 40%; left: 70%; 
+    animation: float4 5s ease-in-out infinite; 
+}
+
+#circle5 { 
+    background-color: #900C3F; /* B+ */
+    top: 50%; left: 20%; 
+    animation: float5 6.5s ease-in-out infinite; 
+}
+
+#circle6 { 
+    background-color: #581845; /* B- */
+    top: 60%; left: 80%; 
+    animation: float6 7.5s ease-in-out infinite; 
+}
+
+#circle7 { 
+    background-color: #FF5733; /* AB+ */
+    top: 70%; left: 40%; 
+    animation: float7 8.5s ease-in-out infinite; 
+}
+
+#circle8 { 
+    background-color: #C70039; /* AB- */
+    top: 80%; left: 60%; 
+    animation: float8 9s ease-in-out infinite; 
+}
+
+/* Unique animations for each circle */
+@keyframes float1 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -20px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes float2 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-30px, 15px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes float3 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(25px, -10px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes float4 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-15px, 30px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes float5 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(10px, 25px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes float6 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-20px, -15px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes float7 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(15px, 20px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes float8 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-25px, 10px); }
+    100% { transform: translate(0, 0); }
+}
+
+.register-btn {
+    background-color: #007BFF; /* Blue color for the button */
+    color: white; /* Text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 15px 30px; /* Spacing inside the button */
+    font-size: 18px; /* Font size */
+    font-family: 'Press Start 2P', cursive; /* Font style */
+    cursor: pointer; /* Pointer cursor on hover */
+    position: relative; /* For the glow effect */
+    z-index: 2; /* Ensure it's above other elements */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.register-btn:hover {
+    box-shadow: 0 0 20px #007BFF, 0 0 30px #007BFF; /* Glow effect */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Mono', monospace;
+}
+
+/* Chat Button */
+.chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff6666;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* Chat Container */
+.chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 320px;
+    background: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    display: none;
+    z-index: 999;
+    animation: appear 0.5s ease-in-out;
+}
+
+/* Chat Messages */
+.chat-messages {
+    padding: 10px;
+    height: 250px;
+    overflow-y: auto;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Chat Input */
+.chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-right: 1px solid #ddd;
+    outline: none;
+}
+
+.chat-input button {
+    padding: 10px;
+    background: #ff6666;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Messages */
+.user-message, .ai-message {
+    padding: 8px;
+    border: 2px solid #ff6666;
+    border-radius: 5px;
+}
+
+.user-message { align-self: flex-end; background-color: #ffe6e6; }
+.ai-message { align-self: flex-start; background-color: #f2f2f2; }
+
+/* Predefined Questions */
+.predefined-questions button {
+    background-color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+    text-align: left;
+}
+
+@keyframes appear { 
+    from { transform: scale(0.8); opacity: 0; } 
+    to { transform: scale(1); opacity: 1; } 
+}
+.chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff6666;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.chat-toggle i {
+    font-size: 22px;
+}
+
+.chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 320px;
+    max-width: 100%;
+    background: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    display: none;
+    z-index: 999;
+    animation: appear 0.5s ease-in-out;
+}
+
+.chat-messages {
+    padding: 10px;
+    height: 250px;
+    overflow-y: auto;
+    font-family: 'Roboto Mono', monospace;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-right: 1px solid #ddd;
+    outline: none;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.chat-input button {
+    padding: 10px;
+    background:#ff6666;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.user-message, .ai-message {
+    padding: 8px;
+    border: 2px solid #ff6666;
+    border-radius: 5px;
+    color: #333;
+    font-family: 'Roboto Mono', monospace;
+    animation: fadeIn 0.3s forwards;
+    display: flex;
+    align-items: center;
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: #ffe6e6;
+}
+
+.ai-message {
+    align-self: flex-start;
+    background-color: #f2f2f2;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes appear {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.assistant-animation {
+    animation: assistantBounce 1s infinite alternate;
+    color: #f2f2f2;
+    font-size: 20px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+@keyframes assistantBounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px); /* Adjust to -5px for a closer bounce */
+    }
+}
+
+.predefined-questions {
+    margin-top: 10px;
+}
+
+.predefined-questions button {
+    background-color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    font-family: 'Roboto Mono', monospace;
+    margin: 5px 0;
+    width: 100%;
+    text-align: left;
+}

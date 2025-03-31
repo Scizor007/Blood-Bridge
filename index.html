@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bridge</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <style>
+      
+        .donor-item {
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            color: green; /* Set text color to green */
+            font-family: 'Arial', sans-serif;
+            border-radius: 5px;
+        }
+
+        .donor-item strong {
+            font-weight: bold;
+        }
+
+        .donor-item p {
+            margin: 5px 0;
+        }
+
+        #donorList {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Others</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="game.html">Game</a></li>
+        </ul>
+    </nav>
+
+    <div class="background-circles">
+        <div class="circle" id="circle1">O+</div>
+        <div class="circle" id="circle2">O-</div>
+        <div class="circle" id="circle3">A+</div>
+        <div class="circle" id="circle4">A-</div>
+        <div class="circle" id="circle5">B+</div>
+        <div class="circle" id="circle6">B-</div>
+        <div class="circle" id="circle7">AB+</div>
+        <div class="circle" id="circle8">AB-</div>
+    </div>
+
+    <div class="container">
+        <div class="heartbeat"></div>
+        <h1 id="title"></h1>
+        <p class="quote">"Connecting those in need with those who can help"</p>
+        <div class="buttons">
+            <button class="btn" id="findDonorButton" onclick="openPopup()">
+                <i class="fas fa-search"></i> Find a Donor
+            </button>
+            <button class="btn" onclick="location.href='register-donor.html'">
+                <i class="fas fa-user-plus"></i> Register as Donor
+            </button>
+        </div>
+    </div>
+   <!-- Chat and Predefined Questions Section -->
+    <button class="chat-toggle" onclick="toggleChat()"><i class="fas fa-tint"></i></button>
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-messages" id="chatMessages">
+            <div class="assistant-animation">Tony: Hi! How can I assist you today?</div>
+            <div class="predefined-questions">
+                <div class="predefined-questions">
+                    <button onclick="sendMessage('What is blood?')">What is blood?</button>
+                    <button onclick="sendMessage('What are blood types?')">What are blood types?</button>
+                    <button onclick="sendMessage('What is the rarest blood type?')">What is the rarest blood type?</button>
+                    <button onclick="sendMessage('Why is blood red?')">Why is blood red?</button>
+                    <button onclick="sendMessage('How much blood does the average person have?')">How much blood does the average person have?</button>
+                    <button onclick="sendMessage('What does blood pressure measure?')">What does blood pressure measure?</button>
+                    <button onclick="sendMessage('What is a blood transfusion?')">What is a blood transfusion?</button>
+                    <button onclick="sendMessage('Who can receive blood from an O-negative donor?')">Who can receive blood from an O-negative donor?</button>
+                    <button onclick="sendMessage('What is the purpose of a blood test?')">What is the purpose of a blood test?</button>
+                    <button onclick="sendMessage('What happens if I receive the wrong blood type?')">What happens if I receive the wrong blood type?</button>
+                    <button onclick="sendMessage('Can children have a different blood type than their parents?')">Can children have a different blood type than their parents?</button>
+                    <button onclick="sendMessage('How does blood clotting work?')">How does blood clotting work?</button>
+                    <button onclick="sendMessage('What is hemophilia?')">What is hemophilia?</button>
+                    <button onclick="sendMessage('What are the risks of blood transfusions?')">What are the risks of blood transfusions?</button>
+                    <button onclick="sendMessage('Can I donate blood if I have a tattoo?')">Can I donate blood if I have a tattoo?</button>
+                    <button onclick="sendMessage('What is anemia?')">What is anemia?</button>
+                    <button onclick="sendMessage('Why do some people faint after giving blood?')">Why do some people faint after giving blood?</button>
+                    <button onclick="sendMessage('Is blood donation painful?')">Is blood donation painful?</button>
+                    <button onclick="sendMessage('How long does it take to donate blood?')">How long does it take to donate blood?</button>
+                    <button onclick="sendMessage('How is blood stored?')">How is blood stored?</button>
+                    <button onclick="sendMessage('What is plasma?')">What is plasma?</button>
+                    <button onclick="sendMessage('How often can I donate plasma?')">How often can I donate plasma?</button>
+                    <button onclick="sendMessage('What is the lifespan of red blood cells?')">What is the lifespan of red blood cells?</button>
+                    <button onclick="sendMessage('What is Rh factor?')">What is Rh factor?</button>
+                    <button onclick="sendMessage('Why is Rh-negative blood rare?')">Why is Rh-negative blood rare?</button>
+                    <button onclick="sendMessage('What is blood pressure?')">What is blood pressure?</button>
+                    <button onclick="sendMessage('Can I donate if I have diabetes?')">Can I donate if I have diabetes?</button>
+                    <button onclick="sendMessage('What is the purpose of a blood bank?')">What is the purpose of a blood bank?</button>
+                    <button onclick="sendMessage('How does donating blood affect iron levels?')">How does donating blood affect iron levels?</button>
+                    <button onclick="sendMessage('Can I exercise after donating blood?')">Can I exercise after donating blood?</button>
+                </div>
+                
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userQuery" placeholder="Ask something..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Link to JavaScript file -->
+    <script src="script.js"></script>
+    <script>
+        const titleText = "Blood Bridge";
+        const titleElement = document.getElementById("title");
+        let index = 0;
+
+        function typeTitle() {
+            if (index < titleText.length) {
+                titleElement.textContent += titleText.charAt(index);
+                index++;
+                setTimeout(typeTitle, 150);
+            } else {
+                titleElement.innerHTML += '<span class="cursor"></span>';
+            }
+        }
+
+        typeTitle();
+
+        function openPopup() {
+            document.getElementById('donorModal').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('donorModal').style.display = 'none';
+        }
+
+        function toggleChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.style.display = chatContainer.style.display === 'block' ? 'none' : 'block';
+
+            if (chatContainer.style.display === 'block') {
+                const chatMessages = document.getElementById("chatMessages");
+                chatMessages.innerHTML = '';
+                
+                const aiGreeting = document.createElement("div");
+                aiGreeting.className = "assistant-animation";
+                aiGreeting.textContent = "Tony: Hi! How can I assist you today?";
+                chatMessages.appendChild(aiGreeting);
+            }
+        }
+
+        function sendMessage(messageText) {
+            const userQuery = messageText || document.getElementById("userQuery").value;
+            if (userQuery.trim() === "") return;
+
+            const chatMessages = document.getElementById("chatMessages");
+
+            const userMessage = document.createElement("div");
+            userMessage.className = "user-message";
+            userMessage.textContent = "You: " + userQuery;
+            chatMessages.appendChild(userMessage);
+
+            document.getElementById("userQuery").value = "";
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(() => {
+                const aiMessage = document.createElement("div");
+                aiMessage.className = "ai-message";
+                aiMessage.textContent = "Tony: Here's what I found!";
+                chatMessages.appendChild(aiMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+    </script>
+     <!-- Modal structure -->
+     <div id="donorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span> <!-- Close button -->
+            <h2 class="popup-title">Find a Donor</h2> <!-- Heading for the popup -->
+            <div id="donorPopup" class="popup">
+                <div class="popup-content">
+                    <form id="donorForm" onsubmit="searchDonors(event)">
+                        <label for="bloodType">Select Your Blood Type:</label>
+                        <select id="bloodType" name="bloodType" required>
+                            <option value="" disabled selected>Select your blood type</option>
+                            <option value="O+">O+ (O Positive)</option>
+                            <option value="O-">O- (O Negative)</option>
+                            <option value="A+">A+ (A Positive)</option>
+                            <option value="A-">A- (A Negative)</option>
+                            <option value="B+">B+ (B Positive)</option>
+                            <option value="B-">B- (B Negative)</option>
+                            <option value="AB+">AB+ (AB Positive)</option>
+                            <option value="AB-">AB- (AB Negative)</option>
+                        </select>
+
+                        <label for="city">City:</label>
+                        <input type="text" id="city" name="city" placeholder="e.g., New York" required>
+
+                        <label for="state">State:</label>
+                        <input type="text" id="state" name="state" placeholder="e.g., California" required>
+
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" name="country" placeholder="e.g., USA" required>
+
+                        <button type="submit" class="btn">Search</button>
+                    </form>
+                </div>
+                <div id="donorList"></div> <!-- Donor list results will be shown here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script> <!-- Link to JavaScript file -->
+    <script>
+        // Open the popup
+        function openPopup() {
+            document.getElementById('donorModal').style.display = 'block';
+        }
+
+        // Close the popup
+        function closePopup() {
+            document.getElementById('donorModal').style.display = 'none';
+        }
+        
+        // Close the modal when clicking on 'x'
+        function closeModal() {
+            closePopup(); // Call the close function
+        }
+
+        // Donor data (added full data as per your request)
+        const donorsData = [
+            {
+                "fullName": "Mubashira Shaik",
+                "mobile": "+91 9876543210",
+                "email": "mubashira.shaik@example.com",
+                "aadhar": "1234 5678 9012",
+                "address": "Chennai, Tamil Nadu, India",
+                "bloodGroup": "O+",
+                "lastDonation": "2023-09-15",
+                "latitude": 13.0827,
+                "longitude": 80.2707
+            },
+            {
+                "fullName": "Ruthvej Giduturi",
+                "mobile": "+91 9876543218",
+                "email": "ruthvej.giduturi@example.com",
+                "aadhar": "1234 5678 9020",
+                "address": "Vijayawada, Andhra Pradesh, India",
+                "bloodGroup": "O+",
+                "lastDonation": "2023-02-10",
+                "latitude": 16.5062,
+                "longitude": 80.6480
+            },
+            {
+                "fullName": "Prajwal Upadhyay",
+                "mobile": "+91 9876543225",
+                "email": "prajwal.upadhyay@example.com",
+                "aadhar": "1234 5678 9033",
+                "address": "Mumbai, Maharashtra, India",
+                "bloodGroup": "A+",
+                "lastDonation": "2023-06-25",
+                "latitude": 19.0760,
+                "longitude": 72.8777
+            },
+            {
+                "fullName": "Jaathvika Katakam",
+                "mobile": "+91 9876543226",
+                "email": "jaathvika.katakam@example.com",
+                "aadhar": "1234 5678 9040",
+                "address": "Hyderabad, Telangana, India",
+                "bloodGroup": "B-",
+                "lastDonation": "2023-04-10",
+                "latitude": 17.3850,
+                "longitude": 78.4867
+            },
+            {
+                "fullName": "Rajesh Singh",
+                "mobile": "+91 9876543230",
+                "email": "rajesh.singh@example.com",
+                "aadhar": "1234 5678 9050",
+                "address": "Delhi, India",
+                "bloodGroup": "AB+",
+                "lastDonation": "2023-08-12",
+                "latitude": 28.7041,
+                "longitude": 77.1025
+            },
+            {
+                "fullName": "Sneha Verma",
+                "mobile": "+91 9876543245",
+                "email": "sneha.verma@example.com",
+                "aadhar": "1234 5678 9060",
+                "address": "Bangalore, Karnataka, India",
+                "bloodGroup": "B+",
+                "lastDonation": "2023-10-30",
+                "latitude": 18.5204,
+                "longitude": 73.8567
+            },
+            {
+                "fullName": "Sanya Gupta",
+                "mobile": "+91 9876543255",
+                "email": "sanya.gupta@example.com",
+                "aadhar": "1234 5678 9080",
+                "address": "Kolkata, West Bengal, India",
+                "bloodGroup": "A-",
+                "lastDonation": "2023-03-20",
+                "latitude": 22.5726,
+                "longitude": 88.3639
+            },
+            {
+                "fullName": "Vikas Yadav",
+                "mobile": "+91 9876543260",
+                "email": "vikas.yadav@example.com",
+                "aadhar": "1234 5678 9090",
+                "address": "Lucknow, Uttar Pradesh, India",
+                "bloodGroup": "O+",
+                "lastDonation": "2023-01-15",
+                "latitude": 26.8467,
+                "longitude": 80.9462
+            },
+    {
+        "fullName": "Ravi Teja",
+        "mobile": "+91 9876543221",
+        "email": "ravi.teja@example.com",
+        "aadhar": "1234 5678 9432",
+        "address": "Hitech City, Hyderabad, Telangana, India",
+        "bloodGroup": "O+",
+        "lastDonation": "no donation",
+        "latitude": 17.4500,
+        "longitude": 78.3700
+    },
+    {
+        "fullName": "Nisha Kumari",
+        "mobile": "+91 9876543222",
+        "email": "nisha.kumari@example.com",
+        "aadhar": "1234 5678 9442",
+        "address": "Kukatpally, Hyderabad, Telangana, India",
+        "bloodGroup": "A+",
+        "lastDonation": "no donation",
+        "latitude": 17.4694,
+        "longitude": 78.3924
+    },
+    {
+        "fullName": "Praveen Yadav",
+        "mobile": "+91 9876543223",
+        "email": "praveen.yadav@example.com",
+        "aadhar": "1234 5678 9452",
+        "address": "Madhapur, Hyderabad, Telangana, India",
+        "bloodGroup": "B+",
+        "lastDonation": "no donation",
+        "latitude": 17.4490,
+        "longitude": 78.4072
+    },
+    {
+        "fullName": "Tejaswini Rao",
+        "mobile": "+91 9876543224",
+        "email": "tejaswini.rao@example.com",
+        "aadhar": "1234 5678 9462",
+        "address": "Gachibowli, Hyderabad, Telangana, India",
+        "bloodGroup": "AB+",
+        "lastDonation": "2023-05-18",
+        "latitude": 17.4293,
+        "longitude": 78.3698
+    },
+    {
+        "fullName": "Siddharth Choudhury",
+        "mobile": "+91 9876543225",
+        "email": "siddharth.choudhury@example.com",
+        "aadhar": "1234 5678 9472",
+        "address": "Secunderabad, Hyderabad, Telangana, India",
+        "bloodGroup": "O-",
+        "lastDonation": "no donation",
+        "latitude": 17.4325,
+        "longitude": 78.4987
+    },
+    {
+        "fullName": "Kavya Singh",
+        "mobile": "+91 9876543226",
+        "email": "kavya.singh@example.com",
+        "aadhar": "1234 5678 9482",
+        "address": "Begumpet, Hyderabad, Telangana, India",
+        "bloodGroup": "A-",
+        "lastDonation": "2023-08-12",
+        "latitude": 17.4361,
+        "longitude": 78.4434
+    },
+    {
+        "fullName": "Sumanth Suresh",
+        "mobile": "+91 9876543227",
+        "email": "sumanth.suresh@example.com",
+        "aadhar": "1234 5678 9492",
+        "address": "LB Nagar, Hyderabad, Telangana, India",
+        "bloodGroup": "AB-",
+        "lastDonation": "no donation",
+        "latitude": 17.3357,
+        "longitude": 78.5404
+    },
+    {
+        "fullName": "Meera Kumari",
+        "mobile": "+91 9876543228",
+        "email": "meera.kumari@example.com",
+        "aadhar": "1234 5678 9502",
+        "address": "Ameerpet, Hyderabad, Telangana, India",
+        "bloodGroup": "B-",
+        "lastDonation": "2023-07-25",
+        "latitude": 17.4478,
+        "longitude": 78.4372
+    },
+    {
+        "fullName": "Chaitanya Reddy",
+        "mobile": "+91 9876543229",
+        "email": "chaitanya.reddy@example.com",
+        "aadhar": "1234 5678 9512",
+        "address": "Banjara Hills, Hyderabad, Telangana, India",
+        "bloodGroup": "O+",
+        "lastDonation": "2023-06-10",
+        "latitude": 17.4265,
+        "longitude": 78.4478
+    },
+    {
+        "fullName": "Naveen Kumar",
+        "mobile": "+91 9876543230",
+        "email": "naveen.kumar@example.com",
+        "aadhar": "1234 5678 9522",
+        "address": "Malkajgiri, Hyderabad, Telangana, India",
+        "bloodGroup": "A+",
+        "lastDonation": "no donation",
+        "latitude": 17.4444,
+        "longitude": 78.5612
+    },
+    {
+        "fullName": "Radhika Verma",
+        "mobile": "+91 9876543231",
+        "email": "radhika.verma@example.com",
+        "aadhar": "1234 5678 9532",
+        "address": "Hitech City, Hyderabad, Telangana, India",
+        "bloodGroup": "AB+",
+        "lastDonation": "2023-04-14",
+        "latitude": 17.4452,
+        "longitude": 78.3812
+    },
+    {
+        "fullName": "Sai Kiran",
+        "mobile": "+91 9876543232",
+        "email": "sai.kiran@example.com",
+        "aadhar": "1234 5678 9542",
+        "address": "Madhapur, Hyderabad, Telangana, India",
+        "bloodGroup": "O+",
+        "lastDonation": "no donation",
+        "latitude": 17.4238,
+        "longitude": 78.4021
+    },
+    {
+        "fullName": "Shruthi Reddy",
+        "mobile": "+91 9876543233",
+        "email": "shruthi.reddy@example.com",
+        "aadhar": "1234 5678 9552",
+        "address": "Kukatpally, Hyderabad, Telangana, India",
+        "bloodGroup": "A-",
+        "lastDonation": "2023-02-03",
+        "latitude": 17.4625,
+        "longitude": 78.3708
+    },
+    {
+        "fullName": "Harsha Vardhan",
+        "mobile": "+91 9876543234",
+        "email": "harsha.vardhan@example.com",
+        "aadhar": "1234 5678 9562",
+        "address": "Gachibowli, Hyderabad, Telangana, India",
+        "bloodGroup": "AB-",
+        "lastDonation": "no donation",
+        "latitude": 17.4418,
+        "longitude": 78.3241
+    },
+    {
+        "fullName": "Vani Kumar",
+        "mobile": "+91 9876543235",
+        "email": "vani.kumar@example.com",
+        "aadhar": "1234 5678 9572",
+        "address": "Secunderabad, Hyderabad, Telangana, India",
+        "bloodGroup": "O-",
+        "lastDonation": "2023-03-20",
+        "latitude": 17.4376,
+        "longitude": 78.5003
+    },
+    {
+        "fullName": "Ravi Kumar",
+        "mobile": "+91 9876543236",
+        "email": "ravi.kumar@example.com",
+        "aadhar": "1234 5678 9582",
+        "address": "Begumpet, Hyderabad, Telangana, India",
+        "bloodGroup": "B+",
+        "lastDonation": "no donation",
+        "latitude": 17.4483,
+        "longitude": 78.4316
+    },
+    {
+        "fullName": "Anjali Yadav",
+        "mobile": "+91 9876543237",
+        "email": "anjali.yadav@example.com",
+        "aadhar": "1234 5678 9592",
+        "address": "LB Nagar, Hyderabad, Telangana, India",
+        "bloodGroup": "A+",
+        "lastDonation": "no donation",
+        "latitude": 17.3251,
+        "longitude": 78.5403
+    },
+    {
+        "fullName": "Madhavi Reddy",
+        "mobile": "+91 9876543238",
+        "email": "madhavi.reddy@example.com",
+        "aadhar": "1234 5678 9602",
+        "address": "Hitech City, Hyderabad, Telangana, India",
+        "bloodGroup": "O-",
+        "lastDonation": "2023-04-19",
+        "latitude": 17.4453,
+        "longitude": 78.3771
+    },
+    {
+        "fullName": "Sandeep Kumar",
+        "mobile": "+91 9876543239",
+        "email": "sandeep.kumar@example.com",
+        "aadhar": "1234 5678 9612",
+        "address": "Ameerpet, Hyderabad, Telangana, India",
+        "bloodGroup": "B-",
+        "lastDonation": "2023-06-24",
+        "latitude": 17.4390,
+        "longitude": 78.4412
+    },
+            {
+                "fullName": "Shweta Agarwal",
+                "mobile": "+91 9876543265",
+                "email": "shweta.agarwal@example.com",
+                "aadhar": "1234 5678 9100",
+                "address": "Chandigarh, India",
+                "bloodGroup": "AB-",
+                "lastDonation": "2023-05-05",
+                "latitude": 30.7333,
+                "longitude": 76.7794
+            }
+        ];
+        // Search for donors based on selected blood type, city, and other filters
+        function searchDonors(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const bloodType = document.getElementById("bloodType").value;
+            const city = document.getElementById("city").value.toLowerCase();
+
+            const filteredDonors = donorsData.filter(donor => {
+                return donor.bloodGroup === bloodType && donor.address.toLowerCase().includes(city);
+            });
+
+            displayDonors(filteredDonors);
+        }
+
+        // Display the filtered donors with all details
+        function displayDonors(donors) {
+            const donorList = document.getElementById("donorList");
+            donorList.innerHTML = ''; // Clear previous results
+
+            if (donors.length > 0) {
+                donors.forEach(donor => {
+                    const donorItem = document.createElement('div');
+                    donorItem.classList.add('donor-item');
+                    donorItem.innerHTML = `
+                        <strong>${donor.fullName}</strong><br>
+                        Mobile: ${donor.mobile}<br>
+                        Email: ${donor.email}<br>
+                        Aadhar: ${donor.aadhar}<br>
+                        Address: ${donor.address}<br>
+                        Blood Group: ${donor.bloodGroup}<br>
+                        Last Donation: ${donor.lastDonation}<br>
+                        Latitude: ${donor.latitude}<br>
+                        Longitude: ${donor.longitude}
+                    `;
+                    donorList.appendChild(donorItem);
+                });
+            } else {
+                donorList.innerHTML = '<p>No donors found matching your criteria.</p>';
+            }
+        }
+    </script>
+</body>
+</html>

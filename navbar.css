@@ -1,0 +1,38 @@
+/* navbar.css */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.navbar {
+    width: 100%;
+    background-color: #111;
+    text-align: center;
+    position: fixed;
+    top: 10px; /* Adjust this value to bring the navbar slightly lower */
+    left: 0;
+    z-index: 10;
+    padding: 10px 0; /* Add padding for better spacing */
+    margin: 0;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+}
+
+.navbar ul li {
+    margin: 0 20px;
+}
+
+.navbar ul li a {
+    color: #ff6666;
+    text-decoration: none;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+}
+
+.navbar ul li a:hover {
+    color: #ff3333;
+    text-shadow: 0 0 5px rgba(255, 51, 51, 0.8);
+}

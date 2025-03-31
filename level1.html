@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Assessment</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: red;
+            font-family: 'Press Start 2P', cursive;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #levelText {
+            font-size: 54px;
+            margin: 20px 0;
+            text-align: center;
+            color: #ffcccc;
+            text-shadow: 0 0 5px #ffcccc, 0 0 10px #ffcccc, 0 0 15px #ff6666;
+        }
+        nav.navbar {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        nav.back-button-nav {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Press Start 2P', cursive;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            margin-right: 20px;
+        }
+        .nav-btn:hover {
+            background-color: #0056b3;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+        }
+        .ideal-range-table {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-collapse: collapse;
+            line-height: 1.6;
+        }
+        .ideal-range-table th, .ideal-range-table td {
+            border: 1px solid #ff6666;
+            padding: 12px;
+            text-align: center;
+            color: #ffcccc;
+            font-size: 18px;
+        }
+        .ideal-range-table th {
+            background-color: #333;
+            color: #ffcccc;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 600px;
+            gap: 20px;
+        }
+        label {
+            font-family: monospace;
+            font-size: 20px;
+            color: #12f51d;
+            white-space: nowrap;
+        }
+        input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 18px;
+            font-family: 'Press Start 2P', cursive;
+            color: #ff6666;
+            background-color: #000;
+        }
+        .submit-btn {
+            background-color: #ff6666;
+            color: white;
+            text-align: center;
+            border: none;
+            padding: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Press Start 2P', cursive;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: darkred;
+            box-shadow: 0 0 20px rgba(255, 102, 102, 0.8);
+        }
+        .result {
+            font-size: 18px;
+            color: #ffcccc;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .inside-range {
+            color: #12f51d;
+        }
+        .outside-range {
+            color: #ff6666;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="home.html">Others</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+    <nav class="back-button-nav">
+        <button class="nav-btn" onclick="window.location.href='home.html';">Back</button>
+    </nav>
+    <div id="levelText"></div>
+
+    <!-- Ideal Range Table -->
+    <table class="ideal-range-table">
+        <tr>
+            <th>Test Name</th>
+            <th>Ideal Range</th>
+        </tr>
+        <tr>
+            <td>Hemoglobin</td>
+            <td>14 - 18 g/dL</td>
+        </tr>
+        <tr>
+            <td>Platelets</td>
+            <td>150,000 - 450,000 per µL</td>
+        </tr>
+        <tr>
+            <td>Red Blood Cell Count (RBC)</td>
+            <td>4,600,000 - 6,000,000 per µL</td>
+        </tr>
+        <tr>
+            <td>Blood Sugar Level</td>
+            <td>70 - 100 mg/dL</td>
+        </tr>
+        <tr>
+            <td>White Blood Cell Count (WBC)</td>
+            <td>4,500 - 11,000 per µL</td>
+        </tr>
+    </table>
+
+    <!-- Form for Health Input -->
+    <form id="healthForm">
+        <label for="hemoglobin">Hemoglobin (g/dL):</label>
+        <input type="number" id="hemoglobin" name="hemoglobin" required>
+
+        <label for="platelets">Platelets (per µL):</label>
+        <input type="number" id="platelets" name="platelets" required>
+
+        <label for="rbc">Red Blood Cell Count (RBC) (per µL):</label>
+        <input type="number" id="rbc" name="rbc" required>
+
+        <label for="bloodSugar">Blood Sugar Level (mg/dL):</label>
+        <input type="number" id="bloodSugar" name="bloodSugar" required>
+
+        <label for="wbc">White Blood Cell Count (WBC) (per µL):</label>
+        <input type="number" id="wbc" name="wbc" required>
+
+        <button type="submit" class="submit-btn">Check</button>
+    </form>
+
+    <!-- Result Display Section -->
+    <div class="result" id="resultDisplay"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const levelTextElement = document.getElementById("levelText");
+            const text = "Health Assessment";
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    levelTextElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, 200);
+                }
+            }
+
+            type();
+
+            document.getElementById("healthForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const hemoglobin = parseInt(document.getElementById("hemoglobin").value);
+                const platelets = parseInt(document.getElementById("platelets").value);
+                const rbc = parseInt(document.getElementById("rbc").value);
+                const bloodSugar = parseInt(document.getElementById("bloodSugar").value);
+                const wbc = parseInt(document.getElementById("wbc").value);
+
+                let resultText = "<h2>Health Check Results:</h2>";
+                resultText += `<p>Hemoglobin: <span class="${getColorClass(hemoglobin, 14, 18)}">${checkRange(hemoglobin, 14, 18)}</span></p>`;
+                resultText += `<p>Platelets: <span class="${getColorClass(platelets, 150000, 450000)}">${checkRange(platelets, 150000, 450000)}</span></p>`;
+                resultText += `<p>Red Blood Cell Count (RBC): <span class="${getColorClass(rbc, 4600000, 6000000)}">${checkRange(rbc, 4600000, 6000000)}</span></p>`;
+                resultText += `<p>Blood Sugar Level: <span class="${getColorClass(bloodSugar, 70, 100)}">${checkRange(bloodSugar, 70, 100)}</span></p>`;
+                resultText += `<p>White Blood Cell Count (WBC): <span class="${getColorClass(wbc, 4500, 11000)}">${checkRange(wbc, 4500, 11000)}</span></p>`;
+
+                document.getElementById("resultDisplay").innerHTML = resultText;
+            });
+
+            function checkRange(value, min, max) {
+                return value >= min && value <= max ? "Within Range" : "Out of Range";
+            }
+
+            function getColorClass(value, min, max) {
+                return value >= min && value <= max ? "inside-range" : "outside-range";
+            }
+        });
+    </script>
+</body>
+</html>

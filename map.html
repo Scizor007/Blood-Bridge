@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bridge - Blood Donor Map</title>
+    <link rel="stylesheet" href="navbar.css">
+    <!-- Google Fonts for Pixel Font Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+
+    <style>
+        /* Set page background to black */
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Style for the heading */
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+            color: #ff4d4d;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Style for dropdown */
+        select {
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+            border: 1px solid #ff4d4d;
+        }
+
+        /* Map container styling */
+        #map {
+            height: 600px;
+            width: 90%;
+            max-width: 800px;
+            margin: 20px 0;
+            border: 2px solid #ff4d4d;
+            border-radius: 8px;
+        }
+
+        /* Style for custom colored markers */
+        .marker-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="home.html">Others</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="game.html">Game</a></li>
+        </ul>
+    </nav>
+
+    <h1>Blood Donor Map</h1>
+
+
+
+    <!-- Dropdown for blood group selection -->
+    <select id="bloodGroupSelect">
+        <option value="all">All Blood Groups</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+    </select>
+
+    <div id="map"></div>
+
+    <!-- Leaflet JS Library -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map centered on India
+        const map = L.map('map').setView([20.5937, 78.9629], 5);
+
+        // Set up the OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Define colors for each blood group
+        const bloodGroupColors = {
+            "O+": "red",
+            "O-": "darkred",
+            "A+": "blue",
+            "A-": "darkblue",
+            "B+": "green",
+            "B-": "darkgreen",
+            "AB+": "purple",
+            "AB-": "darkpurple"
+        };
+
+        // Function to create a custom DivIcon marker
+        function createColoredIcon(bloodGroup) {
+            const color = bloodGroupColors[bloodGroup] || "gray"; // Default to gray if blood group is unknown
+            return L.divIcon({
+                className: 'marker-icon',
+                html: `<div style="background-color: ${color};" class="marker-icon">${bloodGroup}</div>`,
+                iconSize: [20, 20],
+                popupAnchor: [0, -10]
+            });
+        }
+
+        // Example donors data
+        const donorsData = [
+            {
+                "fullName": "Mubashira Shaik",
+                "mobile": "+91 9876543210",
+                "email": "mubashira.shaik@example.com",
+                "aadhar": "1234 5678 9012",
+                "address": "Chennai, Tamil Nadu, India",
+                "bloodGroup": "O+",
+                "lastDonation": "2023-09-15",
+                "latitude": 13.0827,
+                "longitude": 80.2707
+            },
+            {
+                "fullName": "Ruthvej Giduturi",
+                "mobile": "+91 9876543218",
+                "email": "ruthvej.giduturi@example.com",
+                "aadhar": "1234 5678 9020",
+                "address": "Vijayawada, Andhra Pradesh, India",
+                "bloodGroup": "O+",
+                "lastDonation": "2023-02-10",
+                "latitude": 16.5062,
+                "longitude": 80.6480
+            },
+            {
+                "fullName": "Prajwal Upadhyay",
+                "mobile": "+91 9876543225",
+                "email": "prajwal.upadhyay@example.com",
+                "aadhar": "1234 5678 9033",
+                "address": "Mumbai, Maharashtra, India",
+                "bloodGroup": "A+",
+                "lastDonation": "2023-06-25",
+                "latitude": 19.0760,
+                "longitude": 72.8777
+            },
+            {
+                "fullName": "Jaathvika Katakam",
+                "mobile": "+91 9876543226",
+                "email": "jaathvika.katakam@example.com",
+                "aadhar": "1234 5678 9040",
+                "address": "Hyderabad, Telangana, India",
+                "bloodGroup": "B-",
+                "lastDonation": "2023-04-10",
+                "latitude": 17.3850,
+                "longitude": 78.4867
+            },
+            {
+                "fullName": "Rajesh Singh",
+                "mobile": "+91 9876543230",
+                "email": "rajesh.singh@example.com",
+                "aadhar": "1234 5678 9050",
+                "address": "Delhi, India",
+                "bloodGroup": "AB+",
+                "lastDonation": "2023-08-12",
+                "latitude": 28.7041,
+                "longitude": 77.1025
+            },
+            {
+                "fullName": "Sneha Verma",
+                "mobile": "+91 9876543245",
+                "email": "sneha.verma@example.com",
+                "aadhar": "1234 5678 9060",
+                "address": "Bangalore, Karnataka, India",
+                "bloodGroup": "B+",
+                "lastDonation": "2023-10-30",
+                "latitude": 18.5204,
+                "longitude": 73.8567
+            },
+            {
+                "fullName": "Sanya Gupta",
+                "mobile": "+91 9876543255",
+                "email": "sanya.gupta@example.com",
+                "aadhar": "1234 5678 9080",
+                "address": "Kolkata, West Bengal, India",
+                "bloodGroup": "A-",
+                "lastDonation": "2023-03-20",
+                "latitude": 22.5726,
+                "longitude": 88.3639
+            },
+            {
+                "fullName": "Vikas Yadav",
+                "mobile": "+91 9876543260",
+                "email": "vikas.yadav@example.com",
+                "aadhar": "1234 5678 9090",
+                "address": "Lucknow, Uttar Pradesh, India",
+                "bloodGroup": "O+",
+                "lastDonation": "2023-01-15",
+                "latitude": 26.8467,
+                "longitude": 80.9462
+            },
+    {
+        "fullName": "Ravi Teja",
+        "mobile": "+91 9876543221",
+        "email": "ravi.teja@example.com",
+        "aadhar": "1234 5678 9432",
+        "address": "Hitech City, Hyderabad, Telangana, India",
+        "bloodGroup": "O+",
+        "lastDonation": "no donation",
+        "latitude": 17.4500,
+        "longitude": 78.3700
+    },
+    {
+        "fullName": "Nisha Kumari",
+        "mobile": "+91 9876543222",
+        "email": "nisha.kumari@example.com",
+        "aadhar": "1234 5678 9442",
+        "address": "Kukatpally, Hyderabad, Telangana, India",
+        "bloodGroup": "A+",
+        "lastDonation": "no donation",
+        "latitude": 17.4694,
+        "longitude": 78.3924
+    },
+    {
+        "fullName": "Praveen Yadav",
+        "mobile": "+91 9876543223",
+        "email": "praveen.yadav@example.com",
+        "aadhar": "1234 5678 9452",
+        "address": "Madhapur, Hyderabad, Telangana, India",
+        "bloodGroup": "B+",
+        "lastDonation": "no donation",
+        "latitude": 17.4490,
+        "longitude": 78.4072
+    },
+    {
+        "fullName": "Tejaswini Rao",
+        "mobile": "+91 9876543224",
+        "email": "tejaswini.rao@example.com",
+        "aadhar": "1234 5678 9462",
+        "address": "Gachibowli, Hyderabad, Telangana, India",
+        "bloodGroup": "AB+",
+        "lastDonation": "2023-05-18",
+        "latitude": 17.4293,
+        "longitude": 78.3698
+    },
+    {
+        "fullName": "Siddharth Choudhury",
+        "mobile": "+91 9876543225",
+        "email": "siddharth.choudhury@example.com",
+        "aadhar": "1234 5678 9472",
+        "address": "Secunderabad, Hyderabad, Telangana, India",
+        "bloodGroup": "O-",
+        "lastDonation": "no donation",
+        "latitude": 17.4325,
+        "longitude": 78.4987
+    },
+    {
+        "fullName": "Kavya Singh",
+        "mobile": "+91 9876543226",
+        "email": "kavya.singh@example.com",
+        "aadhar": "1234 5678 9482",
+        "address": "Begumpet, Hyderabad, Telangana, India",
+        "bloodGroup": "A-",
+        "lastDonation": "2023-08-12",
+        "latitude": 17.4361,
+        "longitude": 78.4434
+    },
+    {
+        "fullName": "Sumanth Suresh",
+        "mobile": "+91 9876543227",
+        "email": "sumanth.suresh@example.com",
+        "aadhar": "1234 5678 9492",
+        "address": "LB Nagar, Hyderabad, Telangana, India",
+        "bloodGroup": "AB-",
+        "lastDonation": "no donation",
+        "latitude": 17.3357,
+        "longitude": 78.5404
+    },
+    {
+        "fullName": "Meera Kumari",
+        "mobile": "+91 9876543228",
+        "email": "meera.kumari@example.com",
+        "aadhar": "1234 5678 9502",
+        "address": "Ameerpet, Hyderabad, Telangana, India",
+        "bloodGroup": "B-",
+        "lastDonation": "2023-07-25",
+        "latitude": 17.4478,
+        "longitude": 78.4372
+    },
+    {
+        "fullName": "Chaitanya Reddy",
+        "mobile": "+91 9876543229",
+        "email": "chaitanya.reddy@example.com",
+        "aadhar": "1234 5678 9512",
+        "address": "Banjara Hills, Hyderabad, Telangana, India",
+        "bloodGroup": "O+",
+        "lastDonation": "2023-06-10",
+        "latitude": 17.4265,
+        "longitude": 78.4478
+    },
+    {
+        "fullName": "Naveen Kumar",
+        "mobile": "+91 9876543230",
+        "email": "naveen.kumar@example.com",
+        "aadhar": "1234 5678 9522",
+        "address": "Malkajgiri, Hyderabad, Telangana, India",
+        "bloodGroup": "A+",
+        "lastDonation": "no donation",
+        "latitude": 17.4444,
+        "longitude": 78.5612
+    },
+    {
+        "fullName": "Radhika Verma",
+        "mobile": "+91 9876543231",
+        "email": "radhika.verma@example.com",
+        "aadhar": "1234 5678 9532",
+        "address": "Hitech City, Hyderabad, Telangana, India",
+        "bloodGroup": "AB+",
+        "lastDonation": "2023-04-14",
+        "latitude": 17.4452,
+        "longitude": 78.3812
+    },
+    {
+        "fullName": "Sai Kiran",
+        "mobile": "+91 9876543232",
+        "email": "sai.kiran@example.com",
+        "aadhar": "1234 5678 9542",
+        "address": "Madhapur, Hyderabad, Telangana, India",
+        "bloodGroup": "O+",
+        "lastDonation": "no donation",
+        "latitude": 17.4238,
+        "longitude": 78.4021
+    },
+    {
+        "fullName": "Shruthi Reddy",
+        "mobile": "+91 9876543233",
+        "email": "shruthi.reddy@example.com",
+        "aadhar": "1234 5678 9552",
+        "address": "Kukatpally, Hyderabad, Telangana, India",
+        "bloodGroup": "A-",
+        "lastDonation": "2023-02-03",
+        "latitude": 17.4625,
+        "longitude": 78.3708
+    },
+    {
+        "fullName": "Harsha Vardhan",
+        "mobile": "+91 9876543234",
+        "email": "harsha.vardhan@example.com",
+        "aadhar": "1234 5678 9562",
+        "address": "Gachibowli, Hyderabad, Telangana, India",
+        "bloodGroup": "AB-",
+        "lastDonation": "no donation",
+        "latitude": 17.4418,
+        "longitude": 78.3241
+    },
+    {
+        "fullName": "Vani Kumar",
+        "mobile": "+91 9876543235",
+        "email": "vani.kumar@example.com",
+        "aadhar": "1234 5678 9572",
+        "address": "Secunderabad, Hyderabad, Telangana, India",
+        "bloodGroup": "O-",
+        "lastDonation": "2023-03-20",
+        "latitude": 17.4376,
+        "longitude": 78.5003
+    },
+    {
+        "fullName": "Ravi Kumar",
+        "mobile": "+91 9876543236",
+        "email": "ravi.kumar@example.com",
+        "aadhar": "1234 5678 9582",
+        "address": "Begumpet, Hyderabad, Telangana, India",
+        "bloodGroup": "B+",
+        "lastDonation": "no donation",
+        "latitude": 17.4483,
+        "longitude": 78.4316
+    },
+    {
+        "fullName": "Anjali Yadav",
+        "mobile": "+91 9876543237",
+        "email": "anjali.yadav@example.com",
+        "aadhar": "1234 5678 9592",
+        "address": "LB Nagar, Hyderabad, Telangana, India",
+        "bloodGroup": "A+",
+        "lastDonation": "no donation",
+        "latitude": 17.3251,
+        "longitude": 78.5403
+    },
+    {
+        "fullName": "Madhavi Reddy",
+        "mobile": "+91 9876543238",
+        "email": "madhavi.reddy@example.com",
+        "aadhar": "1234 5678 9602",
+        "address": "Hitech City, Hyderabad, Telangana, India",
+        "bloodGroup": "O-",
+        "lastDonation": "2023-04-19",
+        "latitude": 17.4453,
+        "longitude": 78.3771
+    },
+    {
+        "fullName": "Sandeep Kumar",
+        "mobile": "+91 9876543239",
+        "email": "sandeep.kumar@example.com",
+        "aadhar": "1234 5678 9612",
+        "address": "Ameerpet, Hyderabad, Telangana, India",
+        "bloodGroup": "B-",
+        "lastDonation": "2023-06-24",
+        "latitude": 17.4390,
+        "longitude": 78.4412
+    },
+            {
+                "fullName": "Shweta Agarwal",
+                "mobile": "+91 9876543265",
+                "email": "shweta.agarwal@example.com",
+                "aadhar": "1234 5678 9100",
+                "address": "Chandigarh, India",
+                "bloodGroup": "AB-",
+                "lastDonation": "2023-05-05",
+                "latitude": 30.7333,
+                "longitude": 76.7794
+            }
+        ];
+
+        // Create markers and store them in an array
+        const markers = donorsData.map(donor => {
+            const marker = L.marker(
+                [donor.latitude, donor.longitude],
+                { icon: createColoredIcon(donor.bloodGroup) }
+            ).bindPopup(`
+                <strong>${donor.fullName}</strong><br>
+                Blood Group: ${donor.bloodGroup}<br>
+                Last Donation: ${donor.lastDonation}<br>
+                Address: ${donor.address}<br>
+                Contact: ${donor.mobile}
+            `);
+            return { marker, bloodGroup: donor.bloodGroup };
+        });
+
+        // Function to filter markers based on the selected blood group
+        function filterMarkers() {
+            const selectedBloodGroup = document.getElementById('bloodGroupSelect').value;
+            markers.forEach(({ marker, bloodGroup }) => {
+                if (selectedBloodGroup === "all" || selectedBloodGroup === bloodGroup) {
+                    marker.addTo(map);  // Show the marker
+                } else {
+                    map.removeLayer(marker);  // Hide the marker
+                }
+            });
+        }
+
+        // Event listener for the blood group dropdown
+        document.getElementById('bloodGroupSelect').addEventListener('change', filterMarkers);
+
+        // Initial filter to show all markers
+        filterMarkers();
+    </script>
+
+</body>
+</html>

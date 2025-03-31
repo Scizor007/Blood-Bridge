@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Check</title>
+    <link rel="stylesheet" href="navbar.css"> <!-- Link to navbar CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100vh;
+            background-color: #000;
+            color: red;
+            font-family: 'Press Start 2P', cursive;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #levelText {
+            font-size: 54px; /* Larger heading size */
+            margin: 20px 0;
+            text-align: center;
+            width: 100%;
+            color: #ffcccc;
+            text-shadow: 0 0 5px #ffcccc, 0 0 10px #ffcccc, 0 0 15px #ff6666;
+        }
+        nav {
+            width: 100%;
+            text-align: center;
+        }
+        nav + nav { /* Adjusts only the second nav containing the Back button */
+            margin-top: 40px; /* Added margin to move it lower */
+            text-align: center;
+        }
+        .nav-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Press Start 2P', cursive;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            margin-right: 20px;
+        }
+        .nav-btn:hover {
+            background-color: #0056b3;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            margin-top: 10px;
+        }
+        /* Style for all labels to be a medium shade of red */
+        label {
+            font-family: monospace;
+            font-size: 20px; /* Increased label size */
+            color: #12f51d; /* Medium shade of red */
+            white-space: nowrap;
+        }
+
+        input {
+            padding: 12px; /* Larger padding */
+            margin-top: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 18px; /* Larger font size for input */
+            font-family: 'Press Start 2P', cursive;
+            width: 100%;
+            max-width: 600px;
+            color: #ff6666;
+            background-color: #000;
+        }
+        .submit-btn {
+            background-color: #ff6666;
+            color: white;
+            text-align: center;
+            border: none;
+            padding: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px; /* Larger button text size */
+            font-family: 'Press Start 2P', cursive;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            width: 200%;
+            max-width: 600px;
+            margin: 0px 0 0 100px;
+        }
+        .submit-btn:hover {
+            background-color: darkred;
+            box-shadow: 0 0 20px rgba(255, 102, 102, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="home.html">Others</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="game.html">Game</a></li>
+            
+        </ul>
+    </nav>
+    <nav>
+        <button class="nav-btn" onclick="window.location.href='home.html';">Back</button>
+    </nav>
+    <div id="levelText"></div>
+    <form id="healthForm">
+        <label for="donorId">Donor ID:</label>
+        <input type="text" id="donorId" name="donorId" required>
+
+        <label for="bloodBankId">Blood Bank ID:</label>
+        <input type="text" id="bloodBankId" name="bloodBankId" required>
+
+        <label for="collectionDate">Collection Date:</label>
+        <input type="date" id="collectionDate" name="collectionDate" required> <!-- This creates a date picker -->
+
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="date" id="expiryDate" name="expiryDate" required> <!-- This creates a date picker -->
+
+        <button type="submit" class="submit-btn">Check</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const levelTextElement = document.getElementById("levelText");
+            const text = "Blood Bag Registration";
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    levelTextElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, 200);
+                }
+            }
+
+            type();
+        });
+    </script>
+</body>
+</html>
